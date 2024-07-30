@@ -1,2 +1,46 @@
-const iono = 'Hi my name is Slim Shady';
-console.log(iono);
+const textareaEl = document.querySelector('.textarea');
+const wordsNumberEl = document.querySelector('.stat__number--words')
+const charactersNumberEl = document.querySelector('.stat__number--characters')
+const twitterNumberEl = document.querySelector('.stat__number--twitter')
+const facebookNumberEl = document.querySelector('.stat__number--facebook')
+
+
+const inputHandler = () => {
+    //example of input validation
+    if (textareaEl.value.includes('<script>')) {
+        alert('You can\'t use <script> in your text, silly');
+        textareaEl.value = textareaEl.value.replace('<script>', '');
+    }
+    //determine new numbers
+    let numberofWords = textareaEl.value.split(' ').length;
+    if (textareaEl.value.length === 0) {
+        numberofWords = 0; 
+    }
+    const numberOfCharacters = textareaEl.value.length;
+    const twitterCharactersLeft = 280 - numberOfCharacters;
+    const facebookCharactersLeft = 2200 - numberOfCharacters;
+
+
+    //add visual indicator if limit is exceeded
+    if (twitterCharactersLeft < 0) {
+        twitterNumberEl.classList.add('stat__number--limit');
+    } else {
+        twitterNumberEl.classList.remove('stat__number--limit');
+    }
+
+    if (facebookCharactersLeft < 0) {
+        facebookNumberEl.classList.add('stat__number--limit');
+    } else {
+        facebookNumberEl.classList.remove('stat__number--limit');
+    }
+
+    //set new numbers
+    wordsNumberEl.textContent = numberofWords; 
+    charactersNumberEl.textContent = numberOfCharacters;
+    twitterNumberEl.textContent = twitterCharactersLeft;
+    facebookNumberEl.textContent = facebookCharactersLeft;
+}
+
+
+
+textareaEl.addEventListener('input', inputHandler);
